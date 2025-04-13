@@ -12,17 +12,33 @@ class BookingReport:
 
 
     def pull_hotel_attributes(self):
-        hotel_names = self.boxes_section_element.find_elements(By.CSS_SELECTOR, "div[data-testid='title']")
+        hotel_cards = self.boxes_section_element.find_elements(By.CSS_SELECTOR, "div[data-testid='property-card']")
+        extracted_data = []
 
-        extracted_attributes = []
-        for name in hotel_names:
-           hotel_name =name.get_attribute('innerHTML').strip()
-           hotel_score = self.boxes_section_element.find_element(By.XPATH, "//div[contains(@class, 'ac4a7896c7') and contains(text(), 'Scored')]").get_attribute('innerHTML').strip()
-           extracted_attributes.append(
-               [hotel_name,hotel_score]
-           )
-        return extracted_attributes
-          # print(f'{hotel_name} --')
-           #extracted_names.append(hotel_name)
-        #return extracted_names
-    
+        for card in hotel_cards:
+            # Hotel name
+            try:
+                name = card.find_element(By.CSS_SELECTOR, "div[data-testid='title']").text.strip()
+            except:
+                name = "N/A"
+
+            # Hotel score
+            try:
+                score = card.find_element(By.XPATH, ".//div[contains(@class, 'ac4a7896c7') and contains(text(), 'Scored')]").text.strip()
+            
+            # the code was previously displaying Scored 6.5 for all results
+            # the solution is in the dot '.' before //div which instructs the program to 
+            # START SEARCHING FROM THIS CURRENT ELEMENT (hotel name) and not from the top of the page
+            except:
+                score = "N/A"
+
+            # Hotel price
+            try:
+                price = card.find_element(By.CSS_SELECTOR, "span[data-testid='price-and-discounted-price']").text.strip()
+            except:
+                price = "N/A"
+
+            extracted_data.append([name, score, price])
+
+        return extracted_data
+      

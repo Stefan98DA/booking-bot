@@ -110,7 +110,7 @@ class Booking(webdriver.Chrome):
         
         report = BookingReport(hotel_list)
         table = PrettyTable(
-            table_type = ["Hotel Name", "Hotel Score"]
+            field_names = ["Hotel Name", "Hotel Score", "Hotel Price"]
         )
         table.add_rows(report.pull_hotel_attributes())
         print(table)
