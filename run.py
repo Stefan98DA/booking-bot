@@ -7,7 +7,7 @@ with Booking() as bot:
     bot.change_currency()
     bot.select_destination("Zadar")
     bot.select_dates_box()
-    bot.select_dates('2025-04-13', '2025-04-17')
+    bot.select_dates('2025-04-15', '2025-04-21')
     bot.select_persons(2)
     bot.search_button()
     bot.apply_filters()

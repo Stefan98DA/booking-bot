@@ -17,26 +17,26 @@ class BookingReport:
 
         for card in hotel_cards:
             # Hotel name
-            try:
-                name = card.find_element(By.CSS_SELECTOR, "div[data-testid='title']").text.strip()
-            except:
-                name = "N/A"
+            
+            name_elements = card.find_element(By.CSS_SELECTOR, "div[data-testid='title']")
+            name = name_elements.text.strip() if name_elements else "N/A"
+
 
             # Hotel score
-            try:
-                score = card.find_element(By.XPATH, ".//div[contains(@class, 'ac4a7896c7') and contains(text(), 'Scored')]").text.strip()
+            hotel_scores = card.find_element(By.XPATH, ".//div[contains(@class, 'ac4a7896c7') and contains(text(), 'Scored')]")
+            score = hotel_scores.text.strip() if hotel_scores else "N/A"
             
             # the code was previously displaying Scored 6.5 for all results
             # the solution is in the dot '.' before //div which instructs the program to 
             # START SEARCHING FROM THIS CURRENT ELEMENT (hotel name) and not from the top of the page
-            except:
-                score = "N/A"
+
 
             # Hotel price
-            try:
-                price = card.find_element(By.CSS_SELECTOR, "span[data-testid='price-and-discounted-price']").text.strip()
-            except:
-                price = "N/A"
+            
+            hotel_prices = card.find_element(By.CSS_SELECTOR, "span[data-testid='price-and-discounted-price']")
+            price = hotel_prices.text.strip() if hotel_prices else "N/A"
+        
+
 
             extracted_data.append([name, score, price])
 
